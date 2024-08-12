@@ -1,0 +1,7 @@
+﻿  rotatingSquare.c
+C:\Users\Thomas\source\repos\UnitTest\UnitTest\rotatingSquare.c(17,56): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Thomas\source\repos\UnitTest\UnitTest\rotatingSquare.c(18,56): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Thomas\source\repos\UnitTest\UnitTest\rotatingSquare.c(60,18): warning C4113: 'void (__cdecl *)()' differs in parameter lists from 'void (__cdecl *)(void)'
+  UnitTest.vcxproj -> C:\Users\Thomas\source\repos\UnitTest\Debug\UnitTest.exe
+  C:\Users\Thomas\source\repos\UnitTest\UnitTest\freeglut\bin\freeglut.dll
+  1 File(s) copied
