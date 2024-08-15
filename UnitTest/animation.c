@@ -10,6 +10,8 @@
 #include <freeglut.h>
 #include <math.h>
 #include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
 
 
  /******************************************************************************
@@ -54,6 +56,7 @@ void idle(void);
  * Animation-Specific Function Prototypes (add your own here)
  ******************************************************************************/
 
+
 void main(int argc, char** argv);
 void init(void);
 void think(void);
@@ -66,7 +69,65 @@ void think(void);
 
 #define DEG_TO_RAD PI/180.0
 
+
+GLfloat matrix[4] = {-50.0, 50.0, -50.0, 50.0};
+
 float snowManBody[6] = { 1.0f, 1.0f, 1.0f, 0.7f, 0.7f, 0.8f };
+float snowManEye[6] = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
+float snowManNose[6] = { 1.0f, 0.5f, 0.0, 1.0f, 0.5f, 0.0f };
+float ground[6] = { 0.9f, 0.8f, 1.0f, 0.5f, 0.7f, 0.6f };
+
+GLfloat topLeftTerrain[2] = { 0.0, -10.0 };
+GLfloat topRightTerrain[2] = { 0.0, -10.0 };
+GLfloat botLeftTerrain[2] = { 0.0, 0.0};
+GLfloat botRightTerrain[2] = { 0.0, 0.0};
+
+void drawCircle(GLfloat radius, GLfloat x, GLfloat y, float Color[])
+{
+
+	GLfloat increment = 10.0f;
+	glBegin(GL_TRIANGLE_FAN);
+
+	//Origin of the circle
+	glColor3f(Color[0], Color[1], Color[2]);
+	glVertex2f(0.0 + x, 0.0 + y);
+
+	//Other vertex surrounding the circle
+	glColor3f(Color[3], Color[4], Color[5]);
+	for (float i = 0; i * increment <= 360; i++) {
+		glVertex2f((cos(DEG_TO_RAD * (i * increment)) * radius) + x, (sin(DEG_TO_RAD * (i * increment)) * radius) + y);
+	}
+	// repeat the first vertex to finish connecting the circle, without this the circle would look like a pizza missing a slice.
+	glVertex2f((cos(0) * radius) + x, (sin(0) * radius) + y);
+
+	glEnd();
+}
+
+void generateTerrain() {
+	srand(time(0));
+	topLeftTerrain[0] = (rand() % 100 + 1) * 0.1 + matrix[0];
+	topRightTerrain[0] = matrix[1] - (rand() % 100 + 1) * 0.1;
+	botLeftTerrain[0] = matrix[0] - 5.0f;
+	botLeftTerrain[1] = matrix[2];
+	botRightTerrain[0] = matrix[1] + 5.0f;
+	botRightTerrain[1] = matrix[2];
+
+}
+
+void drawTerrain(GLfloat topLeft[], GLfloat topRight[], GLfloat botLeft[], GLfloat botRight[], float Color[]) {
+
+	glBegin(GL_POLYGON);
+	glColor3f(Color[0], Color[1], Color[2]);
+	glVertex2f(botLeft[0], botLeft[1]);
+	glVertex2f(botRight[0], botRight[1]);
+
+	glColor3f(Color[3], Color[4], Color[5]);
+	glVertex2f(topRight[0], topRight[1]);
+	glVertex2f(topLeft[0], topLeft[1]);
+
+	glEnd();
+
+}
 
  /******************************************************************************
   * Entry Point (don't put anything except the main function here)
@@ -77,7 +138,7 @@ void main(int argc, char** argv)
 	// Initialize the OpenGL window.
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-	glutInitWindowSize(1000, 800);
+	glutInitWindowSize(800, 800);
 	glutCreateWindow("Animation");
 
 	// Set up the scene.
@@ -123,7 +184,15 @@ void display(void)
 	*/
 
 	glClear(GL_COLOR_BUFFER_BIT);
-	drawCircle(4.0f, 0.0, 0.0, snowManBody);
+	
+	drawTerrain(topLeftTerrain, topRightTerrain, botLeftTerrain, botRightTerrain, ground);
+
+	drawCircle(5.0f, 0.0f, 0.0f, snowManBody);
+	drawCircle(4.8f, 0.0f, 8.0f, snowManBody);
+	drawCircle(0.6f, -2.0f, 7.5f, snowManEye);
+	drawCircle(0.6f, 2.0f, 7.5f, snowManEye);
+	drawCircle(0.7f, 0.0, 7.2f, snowManNose);
+
 	glutSwapBuffers();
 }
 
@@ -186,26 +255,7 @@ void idle(void)
  ******************************************************************************/
 
 
-void drawCircle(GLfloat radius, GLfloat x, GLfloat y, float Color[])
-{
 
-	float increment = 4.0f;
-	glBegin(GL_TRIANGLE_FAN);
-
-	//Origin of the circle
-	glColor3f(Color[0], Color[1], Color[2]);
-	glVertex2f(0.0 + x, 0.0 + y);
-
-	//Other vertex surrounding the circle
-	glColor3f(Color[3], Color[4], Color[5]);
-	for (float i = 0; i * increment <= 360; i++) {
-		glVertex2f((cos(DEG_TO_RAD * (i * increment)) * radius) + x, (sin(DEG_TO_RAD * (i * increment)) * radius) + y);
-	}
-	// repeat the first vertex to finish connecting the circle, without this the circle would look like a pizza missing a slice.
-	glVertex2f((cos(0) * radius) + x, (sin(0) * radius) + y);
-
-	glEnd();
-}
 
  /*
 	 Initialise OpenGL and set up our scene before we begin the render loop.
@@ -219,10 +269,13 @@ void init(void)
 	glColor3f(1.0, 1.0, 1.0);
 
 	// set the point size
-	glPointSize(15.0);
+	glPointSize(10.0);
 
 	// set window mode to 2D orthographic and set the window size 
-	gluOrtho2D(-10.0, 10.0, -10.0, 10.0);
+	gluOrtho2D(matrix[0], matrix[1], matrix[2], matrix[3]);
+
+	generateTerrain();
+
 }
 
 /*

@@ -1,9 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\thoma\\OneDrive\\Documents\\GitHub\\GraphicDesignClass\\",
+  "WorkspaceRootPath": "C:\\Users\\Thomas\\source\\repos\\UnitTest\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C016292B-BF5A-4FC6-A107-EC868B6B7A15}|UnitTest\\UnitTest.vcxproj|C:\\Users\\thoma\\OneDrive\\Documents\\GitHub\\GraphicDesignClass\\UnitTest\\animation.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{C016292B-BF5A-4FC6-A107-EC868B6B7A15}|UnitTest\\UnitTest.vcxproj|C:\\Users\\Thomas\\source\\repos\\UnitTest\\UnitTest\\animation.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{C016292B-BF5A-4FC6-A107-EC868B6B7A15}|UnitTest\\UnitTest.vcxproj|solutionrelative:UnitTest\\animation.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
@@ -20,11 +20,11 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "animation.c",
-              "DocumentMoniker": "C:\\Users\\thoma\\OneDrive\\Documents\\GitHub\\GraphicDesignClass\\UnitTest\\animation.c",
+              "DocumentMoniker": "C:\\Users\\Thomas\\source\\repos\\UnitTest\\UnitTest\\animation.c",
               "RelativeDocumentMoniker": "UnitTest\\animation.c",
-              "ToolTip": "C:\\Users\\thoma\\OneDrive\\Documents\\GitHub\\GraphicDesignClass\\UnitTest\\animation.c",
+              "ToolTip": "C:\\Users\\Thomas\\source\\repos\\UnitTest\\UnitTest\\animation.c",
               "RelativeToolTip": "UnitTest\\animation.c",
-              "ViewState": "AQIAALkAAAAAAAAAAAD4v74AAAAAAAAA",
+              "ViewState": "AQIAAFEAAAAAAAAAAAAAAFoAAAAXAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2024-08-14T06:58:40.845Z",
               "EditorCaption": ""
