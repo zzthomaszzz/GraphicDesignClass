@@ -1,7 +1,9 @@
-﻿  rotatingSquare.c
-C:\Users\Thomas\source\repos\UnitTest\UnitTest\rotatingSquare.c(17,56): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Thomas\source\repos\UnitTest\UnitTest\rotatingSquare.c(18,56): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Thomas\source\repos\UnitTest\UnitTest\rotatingSquare.c(60,18): warning C4113: 'void (__cdecl *)()' differs in parameter lists from 'void (__cdecl *)(void)'
-  UnitTest.vcxproj -> C:\Users\Thomas\source\repos\UnitTest\Debug\UnitTest.exe
-  C:\Users\Thomas\source\repos\UnitTest\UnitTest\freeglut\bin\freeglut.dll
-  1 File(s) copied
+﻿  animation.c
+C:\Users\thoma\OneDrive\Documents\GitHub\GraphicDesignClass\UnitTest\animation.c(126,2): warning C4013: 'drawCircle' undefined; assuming extern returning int
+C:\Users\thoma\OneDrive\Documents\GitHub\GraphicDesignClass\UnitTest\animation.c(189,6): error C2371: 'drawCircle': redefinition; different basic types
+C:\Users\thoma\OneDrive\Documents\GitHub\GraphicDesignClass\UnitTest\animation.c(197,17): warning C4244: 'function': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\thoma\OneDrive\Documents\GitHub\GraphicDesignClass\UnitTest\animation.c(197,26): warning C4244: 'function': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\thoma\OneDrive\Documents\GitHub\GraphicDesignClass\UnitTest\animation.c(202,59): warning C4244: 'function': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\thoma\OneDrive\Documents\GitHub\GraphicDesignClass\UnitTest\animation.c(202,109): warning C4244: 'function': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\thoma\OneDrive\Documents\GitHub\GraphicDesignClass\UnitTest\animation.c(205,31): warning C4244: 'function': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\thoma\OneDrive\Documents\GitHub\GraphicDesignClass\UnitTest\animation.c(205,54): warning C4244: 'function': conversion from 'double' to 'GLfloat', possible loss of data

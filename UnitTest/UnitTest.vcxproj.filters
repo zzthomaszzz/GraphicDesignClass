@@ -15,10 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="unitTest.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="rotatingSquare.c">
+    <ClCompile Include="animation.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

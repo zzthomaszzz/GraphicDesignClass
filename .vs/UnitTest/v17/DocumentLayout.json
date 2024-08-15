@@ -1,20 +1,10 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Thomas\\source\\repos\\UnitTest\\",
+  "WorkspaceRootPath": "C:\\Users\\thoma\\OneDrive\\Documents\\GitHub\\GraphicDesignClass\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C016292B-BF5A-4FC6-A107-EC868B6B7A15}|UnitTest\\UnitTest.vcxproj|C:\\Users\\Thomas\\source\\repos\\UnitTest\\UnitTest\\rotatingSquare.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{C016292B-BF5A-4FC6-A107-EC868B6B7A15}|UnitTest\\UnitTest.vcxproj|solutionrelative:UnitTest\\rotatingSquare.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Thomas\\Downloads\\bitmapText.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C016292B-BF5A-4FC6-A107-EC868B6B7A15}|UnitTest\\UnitTest.vcxproj|C:\\Users\\Thomas\\source\\repos\\UnitTest\\UnitTest\\unitTest.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{C016292B-BF5A-4FC6-A107-EC868B6B7A15}|UnitTest\\UnitTest.vcxproj|solutionrelative:UnitTest\\unitTest.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Thomas\\Downloads\\simpledots.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{C016292B-BF5A-4FC6-A107-EC868B6B7A15}|UnitTest\\UnitTest.vcxproj|C:\\Users\\thoma\\OneDrive\\Documents\\GitHub\\GraphicDesignClass\\UnitTest\\animation.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{C016292B-BF5A-4FC6-A107-EC868B6B7A15}|UnitTest\\UnitTest.vcxproj|solutionrelative:UnitTest\\animation.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -29,55 +19,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "rotatingSquare.c",
-              "DocumentMoniker": "C:\\Users\\Thomas\\source\\repos\\UnitTest\\UnitTest\\rotatingSquare.c",
-              "RelativeDocumentMoniker": "UnitTest\\rotatingSquare.c",
-              "ToolTip": "C:\\Users\\Thomas\\source\\repos\\UnitTest\\UnitTest\\rotatingSquare.c",
-              "RelativeToolTip": "UnitTest\\rotatingSquare.c",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAxAAAA",
+              "Title": "animation.c",
+              "DocumentMoniker": "C:\\Users\\thoma\\OneDrive\\Documents\\GitHub\\GraphicDesignClass\\UnitTest\\animation.c",
+              "RelativeDocumentMoniker": "UnitTest\\animation.c",
+              "ToolTip": "C:\\Users\\thoma\\OneDrive\\Documents\\GitHub\\GraphicDesignClass\\UnitTest\\animation.c",
+              "RelativeToolTip": "UnitTest\\animation.c",
+              "ViewState": "AQIAALkAAAAAAAAAAAD4v74AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-08-12T10:56:22.748Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "unitTest.c",
-              "DocumentMoniker": "C:\\Users\\Thomas\\source\\repos\\UnitTest\\UnitTest\\unitTest.c",
-              "RelativeDocumentMoniker": "UnitTest\\unitTest.c",
-              "ToolTip": "C:\\Users\\Thomas\\source\\repos\\UnitTest\\UnitTest\\unitTest.c",
-              "RelativeToolTip": "UnitTest\\unitTest.c",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-08-12T11:19:33.505Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "bitmapText.c",
-              "DocumentMoniker": "C:\\Users\\Thomas\\Downloads\\bitmapText.c",
-              "RelativeDocumentMoniker": "..\\..\\..\\Downloads\\bitmapText.c",
-              "ToolTip": "C:\\Users\\Thomas\\Downloads\\bitmapText.c",
-              "RelativeToolTip": "..\\..\\..\\Downloads\\bitmapText.c",
-              "ViewState": "AQIAAFEAAAAAAAAAAAAAAGYAAAAhAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-08-12T10:43:58.68Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "simpledots.c",
-              "DocumentMoniker": "C:\\Users\\Thomas\\Downloads\\simpledots.c",
-              "RelativeDocumentMoniker": "..\\..\\..\\Downloads\\simpledots.c",
-              "ToolTip": "C:\\Users\\Thomas\\Downloads\\simpledots.c",
-              "RelativeToolTip": "..\\..\\..\\Downloads\\simpledots.c",
-              "ViewState": "AQIAACEAAAAAAAAAAAAAAD4AAAAWAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-08-12T07:45:21.551Z",
+              "WhenOpened": "2024-08-14T06:58:40.845Z",
               "EditorCaption": ""
             }
           ]
