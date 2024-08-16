@@ -1,13 +1,13 @@
 ﻿  animation.c
-C:\Users\Thomas\source\repos\UnitTest\UnitTest\animation.c(93,17): warning C4244: 'function': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Thomas\source\repos\UnitTest\UnitTest\animation.c(93,26): warning C4244: 'function': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Thomas\source\repos\UnitTest\UnitTest\animation.c(98,59): warning C4244: 'function': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Thomas\source\repos\UnitTest\UnitTest\animation.c(98,109): warning C4244: 'function': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Thomas\source\repos\UnitTest\UnitTest\animation.c(101,31): warning C4244: 'function': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Thomas\source\repos\UnitTest\UnitTest\animation.c(101,54): warning C4244: 'function': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Thomas\source\repos\UnitTest\UnitTest\animation.c(107,8): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\Thomas\source\repos\UnitTest\UnitTest\animation.c(108,47): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Thomas\source\repos\UnitTest\UnitTest\animation.c(109,33): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Thomas\source\repos\UnitTest\UnitTest\animation.c(98,17): warning C4244: 'function': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Thomas\source\repos\UnitTest\UnitTest\animation.c(98,26): warning C4244: 'function': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Thomas\source\repos\UnitTest\UnitTest\animation.c(103,59): warning C4244: 'function': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Thomas\source\repos\UnitTest\UnitTest\animation.c(103,109): warning C4244: 'function': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Thomas\source\repos\UnitTest\UnitTest\animation.c(106,31): warning C4244: 'function': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Thomas\source\repos\UnitTest\UnitTest\animation.c(106,54): warning C4244: 'function': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Thomas\source\repos\UnitTest\UnitTest\animation.c(112,8): warning C4244: 'function': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\Thomas\source\repos\UnitTest\UnitTest\animation.c(113,47): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+C:\Users\Thomas\source\repos\UnitTest\UnitTest\animation.c(114,36): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
   UnitTest.vcxproj -> C:\Users\Thomas\source\repos\UnitTest\Debug\UnitTest.exe
   C:\Users\Thomas\source\repos\UnitTest\UnitTest\freeglut\bin\freeglut.dll
   1 File(s) copied

@@ -70,17 +70,22 @@ void think(void);
 #define DEG_TO_RAD PI/180.0
 
 
-GLfloat matrix[4] = {-50.0, 50.0, -50.0, 50.0};
+GLfloat dimension[4] = {-50.0, 50.0, -50.0, 50.0};
 
 float snowManBody[6] = { 1.0f, 1.0f, 1.0f, 0.7f, 0.7f, 0.8f };
 float snowManEye[6] = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
 float snowManNose[6] = { 1.0f, 0.5f, 0.0, 1.0f, 0.5f, 0.0f };
 float ground[6] = { 0.9f, 0.8f, 1.0f, 0.5f, 0.7f, 0.6f };
+float sky[6] = { 0.8f, 0.7f, 0.9f, 0.4f, 0.7f, 0.6f };
 
 GLfloat topLeftTerrain[2] = { 0.0, -10.0 };
 GLfloat topRightTerrain[2] = { 0.0, -10.0 };
 GLfloat botLeftTerrain[2] = { 0.0, 0.0};
 GLfloat botRightTerrain[2] = { 0.0, 0.0};
+GLfloat skyCoord[4][2] = { {0.0, 0.0},
+								{0.0, 0.0},
+	                            {0.0, 0.0},
+	                            {0.0, 0.0} };
 
 void drawCircle(GLfloat radius, GLfloat x, GLfloat y, float Color[])
 {
@@ -105,13 +110,25 @@ void drawCircle(GLfloat radius, GLfloat x, GLfloat y, float Color[])
 
 void generateTerrain() {
 	srand(time(0));
-	topLeftTerrain[0] = (rand() % 100 + 1) * 0.1 + matrix[0];
-	topRightTerrain[0] = matrix[1] - (rand() % 100 + 1) * 0.1;
-	botLeftTerrain[0] = matrix[0] - 5.0f;
-	botLeftTerrain[1] = matrix[2];
-	botRightTerrain[0] = matrix[1] + 5.0f;
-	botRightTerrain[1] = matrix[2];
+	topLeftTerrain[0] = (rand() % 100 + 1) * 0.1 + dimension[0];
+	topRightTerrain[0] = dimension[1] - (rand() % 100 + 1) * 0.1;
+	botLeftTerrain[0] = dimension[0] - 5.0f;
+	botLeftTerrain[1] = dimension[2];
+	botRightTerrain[0] = dimension[1] + 5.0f;
+	botRightTerrain[1] = dimension[2];
 
+}
+
+void drawSky(GLfloat skyCoor[4][2], float Color[]) {
+	glBegin(GL_POLYGON);
+	glColor3f(Color[0], Color[1], Color[2]);
+	glVertex2f(skyCoor[0][0], skyCoor[0][1]);
+	glVertex2f(skyCoor[1][0], skyCoor[1][1]);
+	glVertex2f(skyCoor[2][0], skyCoor[2][1]);
+	glVertex2f(skyCoor[3][0], skyCoor[3][1]);
+
+
+	glEnd();
 }
 
 void drawTerrain(GLfloat topLeft[], GLfloat topRight[], GLfloat botLeft[], GLfloat botRight[], float Color[]) {
@@ -127,6 +144,17 @@ void drawTerrain(GLfloat topLeft[], GLfloat topRight[], GLfloat botLeft[], GLflo
 
 	glEnd();
 
+}
+
+void generateSky() {
+	skyCoord[0][0] = dimension[0];
+	skyCoord[0][1] = dimension[3];
+	skyCoord[1][0] = dimension[1];
+	skyCoord[1][1] = dimension[3];
+	skyCoord[2][0] = dimension[1];
+	skyCoord[2][1] = dimension[2];
+	skyCoord[3][0] = dimension[0];
+	skyCoord[3][1] = dimension[2];
 }
 
  /******************************************************************************
@@ -184,6 +212,8 @@ void display(void)
 	*/
 
 	glClear(GL_COLOR_BUFFER_BIT);
+
+	drawSky(skyCoord, sky);
 	
 	drawTerrain(topLeftTerrain, topRightTerrain, botLeftTerrain, botRightTerrain, ground);
 
@@ -272,9 +302,10 @@ void init(void)
 	glPointSize(10.0);
 
 	// set window mode to 2D orthographic and set the window size 
-	gluOrtho2D(matrix[0], matrix[1], matrix[2], matrix[3]);
+	gluOrtho2D(dimension[0], dimension[1], dimension[2], dimension[3]);
 
 	generateTerrain();
+	generateSky();
 
 }
 
