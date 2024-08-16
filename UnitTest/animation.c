@@ -69,6 +69,10 @@ void think(void);
 
 #define DEG_TO_RAD PI/180.0
 
+#define MAX_PARTICLES 1000
+
+int snowOn = 0;
+int snowFrame = 0;
 
 GLfloat dimension[4] = {-50.0, 50.0, -50.0, 50.0};
 
@@ -87,29 +91,23 @@ GLfloat skyCoord[4][2] = { {0.0, 0.0},
 	                            {0.0, 0.0},
 	                            {0.0, 0.0} };
 
-void drawCircle(GLfloat radius, GLfloat x, GLfloat y, float Color[])
-{
+typedef struct {
+	float x;
+	float y;
+} Position2;
 
-	GLfloat increment = 10.0f;
-	glBegin(GL_TRIANGLE_FAN);
+typedef struct {
+	Position2 position;
+	float size;
+	float dy;
+	int active;
+} Particle_t;
 
-	//Origin of the circle
-	glColor3f(Color[0], Color[1], Color[2]);
-	glVertex2f(0.0 + x, 0.0 + y);
+Particle_t particleSystem[MAX_PARTICLES];
 
-	//Other vertex surrounding the circle
-	glColor3f(Color[3], Color[4], Color[5]);
-	for (float i = 0; i * increment <= 360; i++) {
-		glVertex2f((cos(DEG_TO_RAD * (i * increment)) * radius) + x, (sin(DEG_TO_RAD * (i * increment)) * radius) + y);
-	}
-	// repeat the first vertex to finish connecting the circle, without this the circle would look like a pizza missing a slice.
-	glVertex2f((cos(0) * radius) + x, (sin(0) * radius) + y);
-
-	glEnd();
-}
+int particleCount = 0;
 
 void generateTerrain() {
-	srand(time(0));
 	topLeftTerrain[0] = (rand() % 100 + 1) * 0.1 + dimension[0];
 	topRightTerrain[0] = dimension[1] - (rand() % 100 + 1) * 0.1;
 	botLeftTerrain[0] = dimension[0] - 5.0f;
@@ -117,6 +115,17 @@ void generateTerrain() {
 	botRightTerrain[0] = dimension[1] + 5.0f;
 	botRightTerrain[1] = dimension[2];
 
+}
+
+void generateSky() {
+	skyCoord[0][0] = dimension[0];
+	skyCoord[0][1] = dimension[3];
+	skyCoord[1][0] = dimension[1];
+	skyCoord[1][1] = dimension[3];
+	skyCoord[2][0] = dimension[1];
+	skyCoord[2][1] = dimension[2];
+	skyCoord[3][0] = dimension[0];
+	skyCoord[3][1] = dimension[2];
 }
 
 void drawSky(GLfloat skyCoor[4][2], float Color[]) {
@@ -146,15 +155,52 @@ void drawTerrain(GLfloat topLeft[], GLfloat topRight[], GLfloat botLeft[], GLflo
 
 }
 
-void generateSky() {
-	skyCoord[0][0] = dimension[0];
-	skyCoord[0][1] = dimension[3];
-	skyCoord[1][0] = dimension[1];
-	skyCoord[1][1] = dimension[3];
-	skyCoord[2][0] = dimension[1];
-	skyCoord[2][1] = dimension[2];
-	skyCoord[3][0] = dimension[0];
-	skyCoord[3][1] = dimension[2];
+void drawCircle(GLfloat radius, GLfloat x, GLfloat y, float Color[])
+{
+
+	GLfloat increment = 10.0f;
+	glBegin(GL_TRIANGLE_FAN);
+
+	//Origin of the circle
+	glColor3f(Color[0], Color[1], Color[2]);
+	glVertex2f(0.0 + x, 0.0 + y);
+
+	//Other vertex surrounding the circle
+	glColor3f(Color[3], Color[4], Color[5]);
+	for (float i = 0; i * increment <= 360; i++) {
+		glVertex2f((cos(DEG_TO_RAD * (i * increment)) * radius) + x, (sin(DEG_TO_RAD * (i * increment)) * radius) + y);
+	}
+	// repeat the first vertex to finish connecting the circle, without this the circle would look like a pizza missing a slice.
+	glVertex2f((cos(0) * radius) + x, (sin(0) * radius) + y);
+
+	glEnd();
+}
+
+void drawSnow() {
+	for (int i = 0; i < MAX_PARTICLES; i++) {
+		if (particleSystem[i].active != 0) {
+//Remember to change snowman BODY to snow color
+			drawCircle(particleSystem[i].size, particleSystem[i].position.x, particleSystem[i].position.y,snowManBody);
+		}
+	}
+}
+
+void spawnSnow() {
+	Position2 newPos = { ((rand() % 100) - 49), dimension[3] + 10};
+	Particle_t newSnow = { newPos, ((rand() % 10) + 1.0) / 8.0f, (rand() % 10 + 1.0f) / 100.0f, 1};
+	particleSystem[particleCount] = newSnow;
+	particleCount++;
+}
+
+void updateSnow() {
+	for (int i = 0; i < MAX_PARTICLES; i++) {
+		if (particleSystem[i].active != 0) {
+			particleSystem[i].position.y -= particleSystem[i].dy;
+		}
+		if (particleSystem[i].position.y < dimension[2]) {
+			particleSystem[i].active = 0;
+		}
+	}
 }
 
  /******************************************************************************
@@ -214,6 +260,8 @@ void display(void)
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	drawSky(skyCoord, sky);
+
+	drawSnow();
 	
 	drawTerrain(topLeftTerrain, topRightTerrain, botLeftTerrain, botRightTerrain, ground);
 
@@ -245,6 +293,15 @@ void keyPressed(unsigned char key, int x, int y)
 			Rather than using literals (e.g. "d" for diagnostics), create a new KEY_
 			definition in the "Keyboard Input Handling Setup" section of this file.
 		*/
+
+	case 113:
+		if (snowOn == 0) {
+			snowOn = 1;
+		}
+		else if (snowOn == 1) {
+			snowOn = 0;
+		}
+		break;
 	case KEY_EXIT:
 		exit(0);
 		break;
@@ -319,6 +376,16 @@ void init(void)
 */
 void think(void)
 {
+	
+	if (snowOn) {
+		if (snowFrame >= 5){
+			spawnSnow();
+			snowFrame = 0;
+		}
+		snowFrame ++;
+	}
+
+	updateSnow();
 	/*
 		TEMPLATE: REPLACE THIS COMMENT WITH YOUR ANIMATION/SIMULATION CODE
 
