@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
+#include <string.h>
 
 
  /******************************************************************************
@@ -80,6 +81,7 @@ float snowManBody[6] = { 1.0f, 1.0f, 1.0f, 0.7f, 0.7f, 0.8f };
 float snowManEye[6] = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
 float snowManNose[6] = { 1.0f, 0.5f, 0.0, 1.0f, 0.5f, 0.0f };
 float ground[6] = { 0.9f, 0.8f, 1.0f, 0.5f, 0.7f, 0.6f };
+float snow[6] = { 1.0f, 1.0f, 1.0f, 0.6f, 0.6f, 0.5f };
 float sky[6] = { 0.8f, 0.7f, 0.9f, 0.4f, 0.7f, 0.6f };
 
 GLfloat topLeftTerrain[2] = { 0.0, -10.0 };
@@ -180,14 +182,14 @@ void drawSnow() {
 	for (int i = 0; i < MAX_PARTICLES; i++) {
 		if (particleSystem[i].active != 0) {
 //Remember to change snowman BODY to snow color
-			drawCircle(particleSystem[i].size, particleSystem[i].position.x, particleSystem[i].position.y,snowManBody);
+			drawCircle(particleSystem[i].size, particleSystem[i].position.x, particleSystem[i].position.y,snow);
 		}
 	}
 }
 
 void spawnSnow() {
 	Position2 newPos = { ((rand() % 100) - 49), dimension[3] + 10};
-	Particle_t newSnow = { newPos, ((rand() % 10) + 1.0) / 8.0f, (rand() % 10 + 1.0f) / 100.0f, 1};
+	Particle_t newSnow = { newPos, ((rand() % 10) + 1.0) / 8.0f, (rand() % 10 + 1.0f) / 2.0f, 1};
 	particleSystem[particleCount] = newSnow;
 	particleCount++;
 }
@@ -195,12 +197,23 @@ void spawnSnow() {
 void updateSnow() {
 	for (int i = 0; i < MAX_PARTICLES; i++) {
 		if (particleSystem[i].active != 0) {
-			particleSystem[i].position.y -= particleSystem[i].dy;
+			particleSystem[i].position.y -= particleSystem[i].dy * FRAME_TIME_SEC;
 		}
 		if (particleSystem[i].position.y < dimension[2]) {
 			particleSystem[i].active = 0;
 		}
 	}
+}
+
+void showInfo() {
+
+	char particleText[20] = "Particle ";
+	char number[4];
+
+	glRasterPos3f(-48.0f, 30.0f, 0.0f);
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, "\'q\' for snow particle");
+	glRasterPos3f(-48.0f, 25.0f, 0.0f);
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, particleText);
 }
 
  /******************************************************************************
@@ -270,6 +283,8 @@ void display(void)
 	drawCircle(0.6f, -2.0f, 7.5f, snowManEye);
 	drawCircle(0.6f, 2.0f, 7.5f, snowManEye);
 	drawCircle(0.7f, 0.0, 7.2f, snowManNose);
+
+	showInfo();
 
 	glutSwapBuffers();
 }
