@@ -25,10 +25,6 @@
 // Ideal time each frame should be displayed for (in milliseconds).
 const unsigned int FRAME_TIME = 1000 / TARGET_FPS;
 
-// Frame time in fractional seconds.
-// Note: This is calculated to accurately reflect the truncated integer value of
-// FRAME_TIME, which is used for timing, rather than the more accurate fractional
-// value we'd get if we simply calculated "FRAME_TIME_SEC = 1.0f / TARGET_FPS".
 const float FRAME_TIME_SEC = (1000 / TARGET_FPS) / 1000.0f;
 
 // Time we started preparing the current frame (in milliseconds since GLUT was initialized).
@@ -37,10 +33,6 @@ unsigned int frameStartTime = 0;
 /******************************************************************************
  * Keyboard Input Handling Setup
  ******************************************************************************/
-
- // Define all character keys used for input (add any new key definitions here).
- // Note: USE ONLY LOWERCASE CHARACTERS HERE. The keyboard handler provided converts all
- // characters typed by the user to lowercase, so the SHIFT key is ignored.
 
 #define KEY_EXIT			27 // Escape key.
 
@@ -74,24 +66,29 @@ void think(void);
 
 int snowOn = 0;
 int snowFrame = 0;
+int windOnLeft = 0;
+int windOnRight = 0;
+GLfloat maxHorizontalVelocity = 5.0f;
 
+//This is the x axis and y axis size
 GLfloat dimension[4] = {-50.0, 50.0, -50.0, 50.0};
 
+//Color
 float snowManBody[6] = { 1.0f, 1.0f, 1.0f, 0.7f, 0.7f, 0.8f };
 float snowManEye[6] = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
 float snowManNose[6] = { 1.0f, 0.5f, 0.0, 1.0f, 0.5f, 0.0f };
 float ground[6] = { 0.9f, 0.8f, 1.0f, 0.5f, 0.7f, 0.6f };
 float snow[6] = { 1.0f, 1.0f, 1.0f, 0.6f, 0.6f, 0.5f };
-float sky[6] = { 0.8f, 0.7f, 0.9f, 0.4f, 0.7f, 0.6f };
+float sky[6] = { 0.8f, 0.8f, 0.9f };
 
-GLfloat topLeftTerrain[2] = { 0.0, -10.0 };
-GLfloat topRightTerrain[2] = { 0.0, -10.0 };
-GLfloat botLeftTerrain[2] = { 0.0, 0.0};
-GLfloat botRightTerrain[2] = { 0.0, 0.0};
 GLfloat skyCoord[4][2] = { {0.0, 0.0},
 								{0.0, 0.0},
 	                            {0.0, 0.0},
 	                            {0.0, 0.0} };
+GLfloat terrainCoord[4][2] = { {0.0, -10.0},
+								{0.0, -10.0},
+								{0.0, 0.0},
+								{0.0, 0.0} };
 
 typedef struct {
 	float x;
@@ -102,6 +99,7 @@ typedef struct {
 	Position2 position;
 	float size;
 	float dy;
+	float dx;
 	int active;
 } Particle_t;
 
@@ -110,12 +108,13 @@ Particle_t particleSystem[MAX_PARTICLES];
 int particleCount = 0;
 
 void generateTerrain() {
-	topLeftTerrain[0] = (rand() % 100 + 1) * 0.1 + dimension[0];
-	topRightTerrain[0] = dimension[1] - (rand() % 100 + 1) * 0.1;
-	botLeftTerrain[0] = dimension[0] - 5.0f;
-	botLeftTerrain[1] = dimension[2];
-	botRightTerrain[0] = dimension[1] + 5.0f;
-	botRightTerrain[1] = dimension[2];
+	terrainCoord[0][0] = (rand() % 100 + 1) * 0.1 + dimension[0];
+	terrainCoord[1][0] = dimension[1] - (rand() % 100 + 1) * 0.1;
+	terrainCoord[2][0] = dimension[1] + 5.0f;
+	terrainCoord[2][1] = dimension[2];
+	terrainCoord[3][0] = dimension[0] - 5.0f;
+	terrainCoord[3][1] = dimension[2];
+
 
 }
 
@@ -130,28 +129,28 @@ void generateSky() {
 	skyCoord[3][1] = dimension[2];
 }
 
-void drawSky(GLfloat skyCoor[4][2], float Color[]) {
+void drawSky() {
 	glBegin(GL_POLYGON);
-	glColor3f(Color[0], Color[1], Color[2]);
-	glVertex2f(skyCoor[0][0], skyCoor[0][1]);
-	glVertex2f(skyCoor[1][0], skyCoor[1][1]);
-	glVertex2f(skyCoor[2][0], skyCoor[2][1]);
-	glVertex2f(skyCoor[3][0], skyCoor[3][1]);
+	glColor3f(sky[0], sky[1], sky[2]);
+	glVertex2f(skyCoord[0][0], skyCoord[0][1]);
+	glVertex2f(skyCoord[1][0], skyCoord[1][1]);
+	glVertex2f(skyCoord[2][0], skyCoord[2][1]);
+	glVertex2f(skyCoord[3][0], skyCoord[3][1]);
 
 
 	glEnd();
 }
 
-void drawTerrain(GLfloat topLeft[], GLfloat topRight[], GLfloat botLeft[], GLfloat botRight[], float Color[]) {
+void drawTerrain() {
 
 	glBegin(GL_POLYGON);
-	glColor3f(Color[0], Color[1], Color[2]);
-	glVertex2f(botLeft[0], botLeft[1]);
-	glVertex2f(botRight[0], botRight[1]);
+	glColor3f(ground[0], ground[1], ground[2]);
+	glVertex2f(terrainCoord[3][0], terrainCoord[3][1]);
+	glVertex2f(terrainCoord[2][0], terrainCoord[2][1]);
 
-	glColor3f(Color[3], Color[4], Color[5]);
-	glVertex2f(topRight[0], topRight[1]);
-	glVertex2f(topLeft[0], topLeft[1]);
+	glColor3f(ground[3], ground[4], ground[5]);
+	glVertex2f(terrainCoord[1][0], terrainCoord[1][1]);
+	glVertex2f(terrainCoord[0][0], terrainCoord[0][1]);
 
 	glEnd();
 
@@ -163,16 +162,13 @@ void drawCircle(GLfloat radius, GLfloat x, GLfloat y, float Color[])
 	GLfloat increment = 10.0f;
 	glBegin(GL_TRIANGLE_FAN);
 
-	//Origin of the circle
 	glColor3f(Color[0], Color[1], Color[2]);
 	glVertex2f(0.0 + x, 0.0 + y);
 
-	//Other vertex surrounding the circle
 	glColor3f(Color[3], Color[4], Color[5]);
 	for (float i = 0; i * increment <= 360; i++) {
 		glVertex2f((cos(DEG_TO_RAD * (i * increment)) * radius) + x, (sin(DEG_TO_RAD * (i * increment)) * radius) + y);
 	}
-	// repeat the first vertex to finish connecting the circle, without this the circle would look like a pizza missing a slice.
 	glVertex2f((cos(0) * radius) + x, (sin(0) * radius) + y);
 
 	glEnd();
@@ -181,7 +177,6 @@ void drawCircle(GLfloat radius, GLfloat x, GLfloat y, float Color[])
 void drawSnow() {
 	for (int i = 0; i < MAX_PARTICLES; i++) {
 		if (particleSystem[i].active != 0) {
-//Remember to change snowman BODY to snow color
 			drawCircle(particleSystem[i].size, particleSystem[i].position.x, particleSystem[i].position.y,snow);
 		}
 	}
@@ -189,15 +184,44 @@ void drawSnow() {
 
 void spawnSnow() {
 	Position2 newPos = { ((rand() % 100) - 49), dimension[3] + 10};
-	Particle_t newSnow = { newPos, ((rand() % 10) + 1.0) / 8.0f, (rand() % 10 + 1.0f) / 2.0f, 1};
+	Particle_t newSnow = { newPos, ((rand() % 10) + 1.0) / 8.0f, (rand() % 10 + 1.0f) / 2.0f, 0.0f, 1};
 	particleSystem[particleCount] = newSnow;
 	particleCount++;
+	if (particleCount >= MAX_PARTICLES) {
+		particleCount = 0;
+	}
 }
 
 void updateSnow() {
 	for (int i = 0; i < MAX_PARTICLES; i++) {
 		if (particleSystem[i].active != 0) {
+			if (windOnLeft == 1) {
+				particleSystem[i].dx -= 0.05f;
+				if (particleSystem[i].dx <= -maxHorizontalVelocity) {
+					particleSystem[i].dx = -maxHorizontalVelocity;
+				}
+			}
+			else if (windOnRight) {
+				particleSystem[i].dx += 0.05f;
+				if (particleSystem[i].dx >= maxHorizontalVelocity) {
+					particleSystem[i].dx = maxHorizontalVelocity;
+				}
+			}
+			else {
+				if (particleSystem[i].dx > 0) {
+					particleSystem[i].dx -= 0.05f;
+				}
+				else if (particleSystem[i].dx < 0) {
+					particleSystem[i].dx += 0.05f;
+				}
+			}
 			particleSystem[i].position.y -= particleSystem[i].dy * FRAME_TIME_SEC;
+			particleSystem[i].position.x += particleSystem[i].dx * FRAME_TIME_SEC;
+
+			particleSystem[i].size -= 0.0005f;
+			if (particleSystem[i].size < 0.01f) {
+				particleSystem[i].active = 0;
+			}
 		}
 		if (particleSystem[i].position.y < dimension[2]) {
 			particleSystem[i].active = 0;
@@ -207,13 +231,36 @@ void updateSnow() {
 
 void showInfo() {
 
-	char particleText[20] = "Particle ";
-	char number[4];
+	glRasterPos3f(-48.0f, 35.0f, 0.0f);
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, "\'esc\' to exist");
 
 	glRasterPos3f(-48.0f, 30.0f, 0.0f);
 	glutBitmapString(GLUT_BITMAP_HELVETICA_18, "\'q\' for snow particle");
+
 	glRasterPos3f(-48.0f, 25.0f, 0.0f);
-	glutBitmapString(GLUT_BITMAP_HELVETICA_18, particleText);
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, "\'a\' for wind left");
+
+	glRasterPos3f(-48.0f, 20.0f, 0.0f);
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, "\'d\' for wind right");
+
+	glRasterPos3f(-48.0f, 15.0f, 0.0f);
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, "\'s\' to stop wind");
+
+	glRasterPos3f(-48.0f, 10.0f, 0.0f);
+	if (snowOn) {
+		glutBitmapString(GLUT_BITMAP_HELVETICA_18, "Snow On");
+	}
+	else {
+		glutBitmapString(GLUT_BITMAP_HELVETICA_18, "Snow Off");
+	}
+
+	glRasterPos3f(-48.0f, 5.0f, 0.0f);
+	if (windOnRight == 1 || windOnLeft == 1) {
+		glutBitmapString(GLUT_BITMAP_HELVETICA_18, "Wind On");
+	}
+	else {
+		glutBitmapString(GLUT_BITMAP_HELVETICA_18, "Wind Off");
+	}
 }
 
  /******************************************************************************
@@ -251,38 +298,22 @@ void main(int argc, char** argv)
  * GLUT Callbacks (don't add any other functions here)
  ******************************************************************************/
 
- /*
-	 Called when GLUT wants us to (re)draw the current animation frame.
-
-	 Note: This function must not do anything to update the state of our simulated
-	 world. Animation (moving or rotating things, responding to keyboard input,
-	 etc.) should only be performed within the think() function provided below.
- */
 void display(void)
 {
-	/*
-		TEMPLATE: REPLACE THIS COMMENT WITH YOUR DRAWING CODE
-
-		Separate reusable pieces of drawing code into functions, which you can add
-		to the "Animation-Specific Functions" section below.
-
-		Remember to add prototypes for any new functions to the "Animation-Specific
-		Function Prototypes" section near the top of this template.
-	*/
 
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	drawSky(skyCoord, sky);
+	drawSky();
 
 	drawSnow();
 	
-	drawTerrain(topLeftTerrain, topRightTerrain, botLeftTerrain, botRightTerrain, ground);
+	drawTerrain();
 
-	drawCircle(5.0f, 0.0f, 0.0f, snowManBody);
-	drawCircle(4.8f, 0.0f, 8.0f, snowManBody);
-	drawCircle(0.6f, -2.0f, 7.5f, snowManEye);
-	drawCircle(0.6f, 2.0f, 7.5f, snowManEye);
-	drawCircle(0.7f, 0.0, 7.2f, snowManNose);
+	drawCircle(5.0f, -15.0f, -10.0f, snowManBody);
+	drawCircle(4.8f, -15.0f, -2.0f, snowManBody);
+	drawCircle(0.6f, -17.0f, -2.5f, snowManEye);
+	drawCircle(0.6f, -13.0f, -2.5f, snowManEye);
+	drawCircle(0.7f, -15.0, -2.8f, snowManNose);
 
 	showInfo();
 
@@ -294,6 +325,7 @@ void display(void)
 */
 void reshape(int width, int h)
 {
+
 }
 
 /*
@@ -309,7 +341,7 @@ void keyPressed(unsigned char key, int x, int y)
 			definition in the "Keyboard Input Handling Setup" section of this file.
 		*/
 
-	case 113:
+	case 'q':
 		if (snowOn == 0) {
 			snowOn = 1;
 		}
@@ -317,19 +349,25 @@ void keyPressed(unsigned char key, int x, int y)
 			snowOn = 0;
 		}
 		break;
+
+	case 'a':
+		windOnLeft = 1;
+		windOnRight = 0;
+		break;
+	case 'd':
+		windOnRight = 1;
+		windOnLeft = 0;
+		break;
+	case 's':
+		windOnLeft = 0;
+		windOnRight = 0;
+		break;
 	case KEY_EXIT:
 		exit(0);
 		break;
 	}
 }
 
-/*
-	Called by GLUT when it's not rendering a frame.
-
-	Note: We use this to handle animation and timing. You shouldn't need to modify
-	this callback at all. Instead, place your animation logic (e.g. moving or rotating
-	things) within the think() method provided with this template.
-*/
 void idle(void)
 {
 	// Wait until it's time to render the next frame.
@@ -356,39 +394,22 @@ void idle(void)
  * Animation-Specific Functions (Add your own functions at the end of this section)
  ******************************************************************************/
 
-
-
-
- /*
-	 Initialise OpenGL and set up our scene before we begin the render loop.
- */
 void init(void)
 {
-	// set background color to be black
 	glClearColor(0, 0, 0, 1);
 
-	// set the drawing to be white
 	glColor3f(1.0, 1.0, 1.0);
 
-	// set the point size
 	glPointSize(10.0);
 
-	// set window mode to 2D orthographic and set the window size 
 	gluOrtho2D(dimension[0], dimension[1], dimension[2], dimension[3]);
 
+	//Init terrain and sky
 	generateTerrain();
 	generateSky();
 
 }
 
-/*
-	Advance our animation by FRAME_TIME milliseconds.
-
-	Note: Our template's GLUT idle() callback calls this once before each new
-	frame is drawn, EXCEPT the very first frame drawn after our application
-	starts. Any setup required before the first frame is drawn should be placed
-	in init().
-*/
 void think(void)
 {
 	
@@ -401,43 +422,4 @@ void think(void)
 	}
 
 	updateSnow();
-	/*
-		TEMPLATE: REPLACE THIS COMMENT WITH YOUR ANIMATION/SIMULATION CODE
-
-		In this function, we update all the variables that control the animated
-		parts of our simulated world. For example: if you have a moving box, this is
-		where you update its coordinates to make it move. If you have something that
-		spins around, here's where you update its angle.
-
-		NOTHING CAN BE DRAWN IN HERE: you can only update the variables that control
-		how everything will be drawn later in display().
-
-		How much do we move or rotate things? Because we use a fixed frame rate, we
-		assume there's always FRAME_TIME milliseconds between drawing each frame. So,
-		every time think() is called, we need to work out how far things should have
-		moved, rotated, or otherwise changed in that period of time.
-
-		Movement example:
-		* Let's assume a distance of 1.0 GL units is 1 metre.
-		* Let's assume we want something to move 2 metres per second on the x axis
-		* Each frame, we'd need to update its position like this:
-			x += 2 * (FRAME_TIME / 1000.0f)
-		* Note that we have to convert FRAME_TIME to seconds. We can skip this by
-		  using a constant defined earlier in this template:
-			x += 2 * FRAME_TIME_SEC;
-
-		Rotation example:
-		* Let's assume we want something to do one complete 360-degree rotation every
-		  second (i.e. 60 Revolutions Per Minute, or RPM).
-		* Each frame, we'd need to update our object's angle like this (we'll use the
-		  FRAME_TIME_SEC constant as per the example above):
-			a += 360 * FRAME_TIME_SEC;
-
-		This works for any type of "per second" change: just multiply the amount you'd
-		want to move in a full second by FRAME_TIME_SEC, and add or subtract that
-		from whatever variable you're updating.
-
-		You can use this same approach to animate other things like color, opacity,
-		brightness of lights, etc.
-	*/
 }
