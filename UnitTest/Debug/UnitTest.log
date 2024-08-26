@@ -1,14 +1,5 @@
 ﻿  animation.c
-C:\Users\Thomas\source\repos\UnitTest\UnitTest\animation.c(111,48): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Thomas\source\repos\UnitTest\UnitTest\animation.c(112,36): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Thomas\source\repos\UnitTest\UnitTest\animation.c(166,17): warning C4244: 'function': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Thomas\source\repos\UnitTest\UnitTest\animation.c(166,26): warning C4244: 'function': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Thomas\source\repos\UnitTest\UnitTest\animation.c(170,59): warning C4244: 'function': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Thomas\source\repos\UnitTest\UnitTest\animation.c(170,109): warning C4244: 'function': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Thomas\source\repos\UnitTest\UnitTest\animation.c(172,31): warning C4244: 'function': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Thomas\source\repos\UnitTest\UnitTest\animation.c(172,54): warning C4244: 'function': conversion from 'double' to 'GLfloat', possible loss of data
-C:\Users\Thomas\source\repos\UnitTest\UnitTest\animation.c(186,39): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\Users\Thomas\source\repos\UnitTest\UnitTest\animation.c(187,55): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Thomas\source\repos\UnitTest\UnitTest\animation.c(18,13): warning C4047: 'initializing': 'char' differs in levels of indirection from 'char [6]'
   UnitTest.vcxproj -> C:\Users\Thomas\source\repos\UnitTest\Debug\UnitTest.exe
   C:\Users\Thomas\source\repos\UnitTest\UnitTest\freeglut\bin\freeglut.dll
   1 File(s) copied
